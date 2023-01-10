@@ -89,7 +89,7 @@ function updateIdsandGrid(row, col) {
       firstpart.push({ row: rowstart, col: colstart });
       secondpart.push({ row: rowEnd, col: colEnd });
     } else if (rowstart == rowEnd && colstart == colEnd) {
-      firstpart.push({ row: rowstart, col: colstart });
+      secondpart.push({ row: rowstart, col: colstart });
       break;
     } else {
       break;
@@ -111,7 +111,9 @@ function updateIdsandGrid(row, col) {
   }
 
   for (let i = secondpart.length - 1; i >= 0; i--) {
-    firstpart.push(secondpart[i]);
+    if (GridBox[secondpart[i].row][secondpart[i].col] != null) {
+      firstpart.push(secondpart[i]);
+    }
   }
 
   // console.log(firstpart);
@@ -171,6 +173,20 @@ function updateGrid(Ids) {
     }
   } else {
     GridBoxObject.setnullIndex([Ids[0].row, Ids[0].col]);
+    let row = Ids[0].row;
+    let col = Ids[0].col;
+    while (row >= 0 || col >= 0) {
+      if (GridBox[row][col] != null) {
+        GridBox[row][col].addClass("Focus");
+        break;
+      } else {
+        col -= 1;
+        if (col < 0) {
+          row -= 1;
+          if (GridBox[0][0] != null) col = GridBox[0].length - 1;
+        }
+      }
+    }
   }
 }
 
